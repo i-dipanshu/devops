@@ -15,6 +15,8 @@ Linux is a free open source operating system.
 
 - **GNU:** extensive collection of free software that can be used as operating System
 
+- **Shells:** command language interpreter like `bash, zhc etc.`
+
 
 ## File System
 -  `/home` - contains the files related to user and user itself.
@@ -39,4 +41,77 @@ Linux is a free open source operating system.
 - `/dev` - devices config files like mouse, keyboard etc.
 - `/media` - external devices automounts here
 - `/mnt` - temporary mountpoints for additional filesystem
+## [Basic Commands](https://command-not-found.com/)
+- `pwd` - present working directory
+- `cd <path> ` - changes directory to specified path  
+- `ls <path>` - list the files in directory, it can have flags like `ls -a` for listing hidden file and `ls -al` for detailed listing
+- `mkdir <foldername>` - makes a new folder in the directory
+- `touch <filename>` - creates a new file 
+- `vim <filename>` - opens the file in vim editor
+- `cat <filename/path>` - displays the content of the file. 
+
+    We can use pipes to view accordingly, like `cat demo.txt | less` displays line by line.
+
+    We can also `grep` flags to highlight and serch for specific words like `cat demo.txt | grep error`
+- `find / -name 'syslog'` - template for finding syslog
+- `man <command>` - to open a manual about any command
+- `echo` - 
+
+## Creating a new user adding to new group
+
+Check the default shell
+
+```bash
+useradd -D
+```
+
+Change the default shell from bourne to bourne again shell
+
+```bash
+useradd -D -s /bin/bash
+echo $SHELL
+```
+
+Add new user
+
+```bash
+useradd -m dipanshu
+```
+
+Create a password for user
+
+```bash
+passwd dipanshu
+```
+
+Add the user to `sudo` group
+
+```bash
+usermod -aG sudo dipanshu
+```
+
+Switch to the user
+
+```bash
+su - dipanshu
+```
+
+Create and add to new group
+
+```bash
+# create a new group
+sudo groupadd <groupname>
+
+# get info about group
+getent group <groupname>
+
+# add our user to group
+sudo usermod -aG <username> $USER
+
+# check groups for the user
+groups dipanshu
+
+```
+
+
 
