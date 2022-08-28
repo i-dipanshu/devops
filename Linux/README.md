@@ -42,6 +42,7 @@ Linux is a free open source operating system.
 - `/media` - external devices automounts here
 - `/mnt` - temporary mountpoints for additional filesystem
 ## [Basic Commands](https://command-not-found.com/)
+- For more datails or more commands `click above`
 - `pwd` - present working directory
 - `cd <path> ` - changes directory to specified path  
 - `ls <path>` - list the files in directory, it can have flags like `ls -a` for listing hidden file and `ls -al` for detailed listing
@@ -55,8 +56,20 @@ Linux is a free open source operating system.
     We can also `grep` flags to highlight and serch for specific words like `cat demo.txt | grep error`
 - `find / -name 'syslog'` - template for finding syslog
 - `man <command>` - to open a manual about any command
-- `echo` - 
+- `echo` - used for displaying a messege or appending a string to files
+    
+    `echo "Display this"` or `echo "append this into" >> file.txt`
 
+- `alias` - a shortform for a command
+    
+    `alias d=docker` - now we can use any docker commands with just `d`
+- `id` - gives the pid, uid, and different id of current user
+- `cat /etc/passwd` -  gives UID
+- `lscpu`, `lsmem` gives cpu and disk info resp.
+- `cp 1.txt copy.txt` - used to copy a file
+- `mv name.txt renamed.txt` - used to rename a file
+- `ps` - used to list all running flags, can be used by different flags
+    - `ps aux` - list all running process
 ## Creating a new user adding to new group
 
 Check the default shell
@@ -112,6 +125,31 @@ sudo usermod -aG <username> $USER
 groups dipanshu
 
 ```
+Deleting a user
+```bash
+# delete the user from machine
+userdel dipanshu
+
+# delete a user from a group
+gpasswd -d <username> <groupname>
+```
 
 
 
+## Vim Editor
+- `INSERT` - we can write text in `INSERT` mode. This mode is accessed by `i` or `insert` key
+- We use `esc` to change to exit from a mode.
+- We can copy and paste in `VISUAL`mode. accessed via `v` key while command mode.
+- In command mode
+    - `:q` - quit
+    - `:q!` - quit without saving
+    - `:wq` / `:x` - write and quit
+
+## Linux Services
+- `ps aux` is used to list running procees
+- We can grab a specific procees by `pgrep <processname>`
+- We can kill a process by using the PID obtained by above comand and `kill <PID>`
+- `htop` - see running with cpu usage
+- `jobs` - see the foregrounds process you stop
+- `ps -auxw | grep systemd` - systemd is the first process to run with PID = 1
+- `systemctl` - through this command we can stop, start any Services. It is the system manager for linux.
