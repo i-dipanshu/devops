@@ -73,3 +73,31 @@ echo <PID> cgroup.procs
 cat /proc/<PID>/cgroup | grep memory
 ```
 
+
+## Namespaces
+- By defining a `Namespaces` we can restrict the resources that are visible to that process
+- We can access the namespaces by `lsns` but it can be incomplete because that the whole point of namespaces ie; to create isolation.
+- There are different types of namespaces like `UID`, `PID` etc
+- `UID` namespaces control the isolation of `hostname and domain name`.
+- `PID` are process id that each process have, which creates a isolation as all `PID` are unique.
+
+## UID
+- We can change hostname using `unshare` command.
+```bash
+# to check hostname
+hostname
+
+# create a container and check its hostname which will be different as container are isolated
+docker run -it --name nginx nginx bash
+hostname
+
+# Use unshare command and open sh shell to change the hostname
+sudo unshare -uts sh
+hostname
+hostname <anyname>
+hostname
+exit 
+
+# but it doesn't effect root hostname
+hostname
+```
