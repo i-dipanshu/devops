@@ -34,9 +34,42 @@ ls /sys/fs/cgroups
 # memory cgroups - this is default for allocation for resources
 ls /sys/fs/cgroup/memory
 
-# to use different cgroup we first need to build it
-mkdir /sys/fs/cgroup/memory/<newcgroup>
+# start a new container
+docker run -d --name nginx nginx
 
-#
+# default is the same that host machine has 
+cat /sys/fs/cgroup/memory/memory.limit_in_bytes
+
+# resource allocated to container
+docker exec -it nginx  bash
+cat /sys/fs/cgroup/memory/memory.limit_in_bytes
 
 ```
+- Since there is no restriction on usage of memory, a single container could use all the memory. So, we need to fix this and restrict container with memory usage
+```bash
+# In order to use different cgroup we need to create it
+mkdir sys/fs/cgroup/memory/<dipanshu>
+
+# start a container with different memory allocation than default
+docker run -d -m 6MB --name nginx nginx
+
+# check the memory allocated
+docker exec -it nginx bash
+cat system.slice/docker-653e68c52719eff5aa7f6e29f7b17aa2a0a7a2cd6ab6375148e5502021fe121f.scope/memory.limit_in_bytes
+```
+- We can assign a process to a cgroup by writing the `PID` of the process to `cgroup.procs` file for that cgroups
+```bash
+# change directory to cgroup created
+cd sys/fs/cgroup/<dipanshu>
+
+# write your desired memory allocation to `memory.limit_in_bytes` file
+cat memory.limit_in_bytes
+echo <memory> > memory.limit_in_bytes
+cat memory.limit_in_bytes
+
+# obtaining `PID` and  assigning `PID` to cgroup
+docker top nginx
+echo <PID> cgroup.procs
+cat /proc/<PID>/cgroup | grep memory
+```
+
