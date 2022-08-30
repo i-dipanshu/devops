@@ -77,4 +77,54 @@ docker image build -t <image-name> .
 ```
 once the image is created than tag it and push to hub.
 
-## Docker Networking
+## Docker Volumes
+- Volume are persistant storage which can be created along with container and they don't go away even if container are deleted.
+- It helps us multiple containers to write and read data from same storage.
+- There are two types : `Named Volume` and `Mount Volume`
+- `Named volume` are volumes which we can name and can be shared by multiple container.
+```bash
+# create a volume with some name
+docker run -d --name mysql -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -v mysql-db:/var/lib/mysql mysql
+
+# check for the volume 
+docker volume ls
+
+# verify by going under mount for our container
+docker inspect mysql 
+
+# Now delete our container
+docker rm -f mysql
+
+# But the volume is still There
+docker volume ls
+
+# create a new container and specify it to use the previous volume
+docker run -d --name mysql2 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -v mysql-db:/var/lib/mysql mysql
+
+# check for volumes
+docker volume ls
+docker inspect mysql2 
+
+```
+- `Bind Mount` are used to bind volume to specific app such that in developing environment we can develop apps in real time and see the changes instead of rebuilding it again and again.
+```bash
+# clone a node app 
+git clone https://github.com/docker/getting-started.git
+
+# change directory
+cd getting-started/app
+
+# create a container to start the app, bind volume in the same directory and then 
+# intall dependencies and start development server(sh shell because alpine don't have bash by default)
+docker container run -d --name todo-app -w /app -v "$(pwd):/app" node:12-alpine sh -c "yarn install && yarn run dev"
+
+# check logs and wait for the server to start and then go to localhost:3000
+docker logs todo-app
+
+# updating files and see changes in real time --> make some changes and go again to localhost:3000
+vim src/static/js/app.js
+
+# Now everything works fine we build and push the image to repo
+docker build -t todo-app:latest todo-app:v2
+docker push <username>/to-do:v2
+```
