@@ -30,7 +30,7 @@
 - We can skip the container flag when running any commands for container
 - `docker version` and `docker info` are used to get info
 - `docker run --help` - used to get help about flags 
-- `docker container ls / docekr ps` - lists the running container
+- `docker container ls / docker ps` - lists the running container
 - `docker ls -a / docker ps -a ` - lists both running and stopped containers
 - `docker container stop <containerId> - to stop a running container
 - `docker rm -f <containerId> - to delete a container 
@@ -128,3 +128,21 @@ vim src/static/js/app.js
 docker build -t todo-app:latest todo-app:v2
 docker push <username>/to-do:v2
 ```
+## Docker Compose
+- We can create mutiple container at once using `docker-compose.yml` file
+```bash
+# pwd - getting-started/app
+# we need to create a docker-compose.yml and script the containers in it
+vim docker-compose.yml
+
+# once created run
+docker compose up -d
+docker compose logs
+docker compose --help
+docker compose ps
+docker compose top
+docker compose down 
+```
+## Docker Security
+- While working with container and Docker, Security is something we should always think before hand.
+- we can use [Docker-bench](https://github.com/docker/docker-bench-security) for checking bad practices or vunrabilties in our application.
