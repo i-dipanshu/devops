@@ -22,9 +22,9 @@
 - Basically, containers are just `isolation of some resources on machine`
 
 
-## Docker and its Architecture
+## Docker 
 - Docker is `container platform` which has major role in making the container what is it today.
-- It helps us to manage and control a container.
+- It helps us to create, manage and control a container.
 ## cgroup
 - **cgroup:** kernel features which allows allocates resources to different collection of processes
 ```bash
@@ -101,3 +101,30 @@ exit
 # but it doesn't effect root hostname
 hostname
 ```
+## PID
+- `PID` is the id given to every process that runs on the machine. If a same process runs mutiple times each time it will have new `PID`
+- All the process that runs on the boot are having `PID = 1`
+- `PID Namespaces ` restricts the PIDs we can see
+```bash
+# processes running at different namespaces are different
+ps -eaf
+
+# now create a container and open a bash shell in it and check for process
+docker run -it --name ubuntu ubuntu bash
+ps- eaf
+```
+- we can create new `PID` Namespace using [unshare](https://command-not-found.com/unshare) command
+```bash
+# opening a sh shell
+sudo unshare --pid sh
+
+# try running different commands
+whoami 
+
+# try again and it won't work because a new command create a `pid` everytime
+whoami
+
+# we can get around this by using fork flag 
+sudo unshare --pid --fork sh
+```
+- 
